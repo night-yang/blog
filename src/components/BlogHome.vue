@@ -1,39 +1,34 @@
 <template>
-  <div class="blog-home">
-    <div class="sidebar">
-      <ul>
-        <li v-for="post in posts" :key="post.id">
-          <router-link router-link-active :to="`/blog/${post.id}`" >
-              {{post.title}}
-          </router-link>
-        </li>
-      </ul>
-    </div>
-    <div class="main">
-      <Blog :posts="posts"/>
-    </div>
+  <div>
+    <h1>博客首页</h1>
+    <ul>
+      <li v-for="post in posts" :key="post.id" >
+        <router-link :to="`/blog/${post.id}`">
+        {{ post.title}}
+        </router-link>
+      </li>
+    </ul>
   </div>
-
 </template>
 
 <script>
+import { API_URL } from '../constant/APIConstants'
 import axios from 'axios'
-import Blog from '@/components/Blog'
 export default {
   name: 'BlogHome',
-  components: {
-    Blog
-  },
-  created() {
-    const uri = 'https://jsonplaceholder.typicode.com/posts/'
-    axios.get(uri).then(res => {
-      console.log(res.data)
-      this.posts = res.data
-    })
-  },
   data: () => ({
     posts: []
-  })
+  }),
+  created(){
+    console.log('去git上拿文章目录')
+    const uri = `${API_URL}/posts/index.json`
+    axios.get(uri).then(
+      res=>{
+        console.log('我的目录',res.data)
+        this.posts=res.data
+      }
+    )
+  }
 }
 </script>
 

@@ -1,26 +1,20 @@
 <template>
   <div>
-    <div v-if="blogId">
-    <h1>{{ post.title }}</h1>
-    <p>
-      {{ post.body }}
-    </p>
-   </div>
-   <div v-else>我的博客</div>
+ content
   </div>
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: 'Blog',
-  props: ['posts'],
-  computed: {
-    blogId() {
-      return this.$route.params.id
-    },
-    post() {
-      return this.posts.find(t => String(t.id) === this.blogId)
-    }
+  created() {
+    console.log('BlogContent created')
+    const uri =
+      'https://raw.githubusercontent.com/happypeter/vhome/master/data/posts/1.md'
+    axios.get(uri).then(res => {
+      console.log('my Post', res.data)
+    })
   }
 }
 </script>
